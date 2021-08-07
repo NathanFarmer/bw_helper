@@ -1,13 +1,18 @@
+import logging
 import os
 import subprocess
 import re
 import sys
+from datetime import datetime
+
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
 def login():
     user = os.environ['BW_USER']
     password = os.environ['BW_PASS']
 
     login = f'bw login {user} {password}'
+    logging.info('Logging into Bitwarden vault.')
     result = subprocess.run(login, text=True, shell=True, check=True, capture_output=True)
 
     if result.returncode == 0:
@@ -24,7 +29,8 @@ def login():
 
 def logout():
     logout = 'bw logout'
-    subprocess.run(logout, text=True, shell=True, check=True)
+    subprocess.run(logout, text=True, shell=True, check=True, stdout=subprocess.DEVNULL)
+    logging.info('Logged out of Bitwarden vault.')
 
 
 def get_password(item):
