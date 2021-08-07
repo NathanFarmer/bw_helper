@@ -21,10 +21,12 @@ def login():
 
     os.environ['BW_SESSION'] = bw_session
 
-def get_password(item):
-    get_password = f'bw get password {item}'
-    return subprocess.run(get_password, text=True, shell=True, capture_output=True)
 
 def logout():
     logout = 'bw logout'
     subprocess.run(logout, text=True, shell=True, check=True)
+
+
+def get_password(item):
+    get_password = f'bw get password {item}'
+    return subprocess.run(get_password, text=True, shell=True, capture_output=True).stdout
